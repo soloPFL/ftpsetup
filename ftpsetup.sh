@@ -26,6 +26,7 @@ echo "*   Enter '0' to STOP FTP server"
 echo "------------------------------------"
 echo "*   Enter 'a' to AUTOCONFIG vsftpd"
 echo "*   Enter 'i' to INSTALL vsftpd"
+echo "*   Enter 'u' to ADD USER to vsftpd"
 echo "------------------------------------"
 echo -e "*   Enter your option: " | tr -d '\n';
 read option;
@@ -62,6 +63,17 @@ then
     echo "Your username and password is the same as" 
     echo "your Linux username and password"
     echo -e "Done! Restart script to STOP or START FTP server";
+elif [ $option == u ]
+then
+  echo "Enter the username for the new user: "
+  read username
+  echo "Enter the password for the new user: "
+  read -s password
+  sudo useradd -m $username -s /usr/sbin/nologin
+  echo $password | sudo passwd $username --stdin
+  echo "User $username added successfully!"
+
+
 elif [ $option == i ]
 then
     OSInfo=$(cat /etc/*-release)
